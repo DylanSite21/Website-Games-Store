@@ -16,7 +16,7 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $role): Response
     {
         if (!Auth()->check()) {
-            abort(402, 'Anda Harus Login Terlebih Dahulu.');
+            abort(401, 'Anda Harus Login Terlebih Dahulu.');
         }
         if (Auth()->user()->role != $role) {
             abort(403, 'Ga Bisa Masuk Khusus Developer.');

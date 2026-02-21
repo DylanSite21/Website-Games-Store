@@ -28,5 +28,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('unauthenticated', function () {
+    return abort(401);
+})->name('unauthenticated');
 
 require __DIR__ . '/auth.php';
