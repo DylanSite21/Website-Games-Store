@@ -8,8 +8,7 @@ use Illuminate\Support\Str;
 
 class DeveloperController extends Controller
 {
-    #[Middleware('auth')]
-    #[Middleware('role:developer')]
+
     public function index()
     {
         return view('developer.index');

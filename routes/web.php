@@ -9,6 +9,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    $user = auth()->user();
+
+    // developers should not be allowed on the main dashboard
+    if ($user && $user->role === 'developer') {
+        return redirect()->route('developer.index');
+    }
+
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -18,10 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::prefix('developer')->group(function () {
-        Route::get('/dashboard', [DeveloperController::class, 'index'])->name('developer.index');
-    });
-
+    // developer-specific dashboard (only accessible to users with the developer role)
     Route::middleware(['role:developer'])->prefix('developer')->group(function () {
         Route::get('/dashboard', [DeveloperController::class, 'index'])->name('developer.index');
     });

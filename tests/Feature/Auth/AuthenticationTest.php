@@ -30,6 +30,28 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
+    public function test_developer_logins_are_sent_to_developer_dashboard(): void
+    {
+        $user = User::factory()->create(['role' => 'developer']);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect(route('developer.index', absolute: false));
+    }
+
+    public function test_developer_cannot_view_main_dashboard(): void
+    {
+        $user = User::factory()->create(['role' => 'developer']);
+
+        $this->actingAs($user)
+            ->get('/dashboard')
+            ->assertRedirect(route('developer.index', absolute: false));
+    }
+
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();
