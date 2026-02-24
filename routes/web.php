@@ -8,16 +8,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+// primary home route (replaces former dashboard)
+Route::get('/home', function () {
     $user = auth()->user();
 
-    // developers should not be allowed on the main dashboard
+    // developers should not be allowed on the main home page
     if ($user && $user->role === 'developer') {
         return redirect()->route('developer.index');
     }
 
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
+
+// maintain old `/dashboard` URI for backwards compatibility
+Route::redirect('/dashboard', '/home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
