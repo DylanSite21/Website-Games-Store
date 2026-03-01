@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Login') }}</title>
+    <title>Games Store</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Logo -->
-        <div class="absolute top-8 left-8 z-50">
+        <div class="hidden lg:flex absolute top-8 left-8 z-50">
             <a href="/" class="inline-flex items-center">
                 <x-application-logo class="w-10 h-10 fill-current text-indigo-400" />
             </a>
@@ -38,7 +38,7 @@
         <!-- Main Content: Split Layout -->
         <div class="w-full h-screen flex">
             <!-- Left Side: Background Image -->
-            <div class="hidden lg:flex w-[90%] items-center justify-center ">
+            <div class="hidden lg:flex w-[90%] items-center justify-center brightness-50">
                 <img src="{{ asset('bg-home-page.png') }}" alt="Background" class="w-full h-full object-cover">
             </div>
 
