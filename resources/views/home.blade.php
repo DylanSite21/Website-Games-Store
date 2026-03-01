@@ -5,6 +5,12 @@
         </h2>
     </x-slot>
 
+    {{-- Corousel --}}
+    <x-corousel :games="$games ?? collect()" />
+
+    {{-- Corousel End --}}
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -15,6 +21,10 @@
             </div>
         </div>
     </div>
+
+
+
+
 
     @if (isset($games))
         <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -38,7 +48,8 @@
                                     <p class="text-sm text-gray-600 mb-2">
                                         {{ Str::limit($game->description, 100) }}
                                     </p>
-                                    <p class="font-bold text-lg mb-2">Rp {{ number_format($game->price, 0, ',', '.') }}
+                                    <p class="font-bold text-lg mb-2">Rp
+                                        {{ number_format($game->price, 0, ',', '.') }}
                                     </p>
 
                                     <!-- Wishlist button -->
@@ -47,7 +58,8 @@
                                             <form action="{{ route('wishlist.destroy', $game) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="text-red-600 hover:underline text-sm">❤ Hapus dari
+                                                <button class="text-red-600 hover:underline text-sm">❤ Hapus
+                                                    dari
                                                     Wishlist</button>
                                             </form>
                                         @else
