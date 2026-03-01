@@ -66,4 +66,26 @@ class Game extends Model
     {
         return $this->package ? Storage::disk('public')->url($this->package) : null;
     }
+
+    public function getYoutubeEmbedAttribute()
+    {
+        if (!$this->video_trailer) {
+            return null;
+        }
+
+        $url = $this->video_trailer;
+
+        // Format youtu.be
+        if (str_contains($url, 'youtu.be')) {
+            return 'https://www.youtube.com/embed/' . basename($url);
+        }
+
+        // Format watch?v=
+        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+        if (isset($query['v'])) {
+            return 'https://www.youtube.com/embed/' . $query['v'];
+        }
+
+        return null;
+    }
 }

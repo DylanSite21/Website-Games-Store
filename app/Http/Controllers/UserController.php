@@ -20,7 +20,7 @@ class UserController extends Controller
 
         // developers get redirected to their own dashboard
         if ($user && $user->role === 'developer') {
-            return redirect()->route('developer.index');
+            return redirect()->route('developer.home');
         }
 
         // published games only

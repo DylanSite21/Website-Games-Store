@@ -9,13 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h1>Developer Dashboard (Role: {{ Auth::user()->role }})</h1>
-                    <p class="mt-2">
-                        <a href="{{ route('developer.games.index') }}" class="text-blue-600 hover:underline">Kelola
-                            Game</a> |
-                        <a href="{{ route('developer.categories.index') }}" class="text-blue-600 hover:underline">Kelola
-                            Kategori</a>
-                    </p>
+                    <h1>Developer HomePage (Role: {{ Auth::user()->role }})</h1>
+                    <p class="text-gray-500">Akun : {{ Auth::user()->name }}</p>
                 </div>
             </div>
         </div>

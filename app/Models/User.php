@@ -59,4 +59,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(\App\Models\Game::class, 'wishlists');
     }
+
+    /**
+     * User's transactions (purchases).
+     */
+    public function transactions()
+    {
+        return $this->hasMany(\App\Models\Transaction::class);
+    }
 }

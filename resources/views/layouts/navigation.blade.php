@@ -12,12 +12,28 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('developer.home')">
                         {{ __('Home') }}
                     </x-nav-link>
                     @if (auth()->user() && auth()->user()->role !== 'developer')
                         <x-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
                             {{ __('Wishlist') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                            {{ __(' Keranjang') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('library.index')" :active="request()->routeIs('library.index')">
+                            {{ __(' Perpustakaan') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('developer.games.index')" :active="request()->routeIs('developer.games.index')">
+                            {{ __('Kelola Game') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('developer.categories.index')" :active="request()->routeIs('developer.categories.index')">
+                            {{ __('Kelola Kategori') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('developer.sales.index')" :active="request()->routeIs('developer.sales.index')">
+                            {{ __('Dashboard Penjualan') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -80,10 +96,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
+            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('developer.home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
             @if (auth()->user() && auth()->user()->role !== 'developer')
+                <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                    {{ __('🛒 Keranjang') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('library.index')" :active="request()->routeIs('library.index')">
+                    {{ __('📚 Perpustakaan') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
                     {{ __('Wishlist') }}
                 </x-responsive-nav-link>

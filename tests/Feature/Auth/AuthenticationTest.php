@@ -40,7 +40,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticatedAs($user);
-        $response->assertRedirect(route('developer.index', absolute: false));
+        $response->assertRedirect(route('developer.home', absolute: false));
     }
 
     public function test_developer_cannot_view_main_dashboard(): void
@@ -49,7 +49,7 @@ class AuthenticationTest extends TestCase
 
         $this->actingAs($user)
             ->get('/dashboard')
-            ->assertRedirect(route('developer.index', absolute: false));
+            ->assertRedirect(route('developer.home', absolute: false));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

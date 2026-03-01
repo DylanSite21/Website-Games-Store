@@ -17,6 +17,19 @@ class GameController extends Controller
         return view('developer.games.index', compact('games'));
     }
 
+    /**
+     * Show game details (public facing page).
+     */
+    public function show(Game $game)
+    {
+        // Check if game is published or user is developer
+        if ($game->status !== 'published' && (!auth()->check() || $game->developer_id !== auth()->id())) {
+            abort(403);
+        }
+
+        return view('games.show', compact('game'));
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -31,7 +44,7 @@ class GameController extends Controller
             'price' => 'required|numeric|min:0',
             'cover_image' => 'nullable|image|max:10240',
             'video_trailer' => 'nullable|url',
-            'package' => 'nullable|file|mimes:zip,exe|max:102400',
+            'package' => 'nullable|file|mimes:zip,exe,mp4|max:102400',
             'status' => 'required|in:draft,published,rejected',
             'categories' => 'array',
             'categories.*' => 'exists:categories,id',
@@ -112,12 +125,29 @@ class GameController extends Controller
     }
 
     /**
-     * Allow users to download game package if present.
+     * Allow users to download game package if present and they have purchased it.
      */
     public function download(Game $game)
     {
         if (!$game->package) {
-            abort(404);
+            abort(404, 'Game ini tidak memiliki paket untuk diunduh.');
+        }
+
+        // Check if game is published
+        if ($game->status !== 'published') {
+            abort(403, 'Game ini belum tersedia untuk diunduh.');
+        }
+
+        $user = auth()->user();
+
+        // Check if user has purchased this game (or is the developer)
+        $hasPurchased = \App\Models\TransactionItem::whereHas('transaction', function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->where('status', 'paid');
+        })->where('game_id', $game->id)->exists();
+
+        if (!$hasPurchased && $game->developer_id !== $user->id) {
+            abort(403, 'Anda harus membeli game ini terlebih dahulu untuk mengunduhnya.');
         }
 
         return Storage::disk('public')->download($game->package);

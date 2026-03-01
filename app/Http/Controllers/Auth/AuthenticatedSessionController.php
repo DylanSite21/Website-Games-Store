@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         if ($user->role === 'developer') {
-            return redirect()->intended(route('developer.index', absolute: false));
+            return redirect()->intended(route('developer.home', absolute: false));
         }
 
         return redirect()->intended(route('home', absolute: false));

@@ -33,12 +33,10 @@
                                     </div>
 
                                     <div class="mt-auto flex gap-2">
-                                        @if ($game->package)
-                                            <a href="{{ route('game.download', $game) }}"
-                                                class="flex-1 text-center px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
-                                                Download
-                                            </a>
-                                        @endif
+                                        <a href="{{ route('game.show', $game) }}"
+                                            class="flex-1 text-center px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">
+                                            Detail
+                                        </a>
                                         <form action="{{ route('wishlist.destroy', $game) }}" method="POST"
                                             class="flex-1">
                                             @csrf
