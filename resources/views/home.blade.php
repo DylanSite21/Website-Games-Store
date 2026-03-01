@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class=" font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Home') }}
         </h2>
     </x-slot>
@@ -11,10 +11,10 @@
     {{-- Corousel End --}}
 
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <div class="">
+        <div class="w-full    ">
+            <div class="bg-black/80 overflow-hidden shadow-sm  backdrop-blur-20">
+                <div class="text-xm p-6 text-white">
                     <h1>Ini Home Page, Khusus (Role: {{ Auth::user()->role }})</h1>
                     <p class="text-gray-500">Akun : {{ Auth::user()->name }}</p>
                 </div>
@@ -28,10 +28,10 @@
 
     @if (isset($games))
         <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white/70 overflow-hidden shadow-sm sm:rounded-lg backdrop-blur-10">
                 <div class="p-6 text-gray-900 space-y-6">
                     <div class="flex items-center justify-between">
-                        <h2 class="font-bold mb-4">Katalog Game</h2>
+                        <h2 class="font-bold text-xl mb-4">Katalog Game</h2>
                         <form action="{{ route('home') }}" method="GET" class="flex">
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="Cari game..." class="border max-w-xs rounded-l px-3 py-2" />
@@ -53,12 +53,12 @@
                                     </p>
 
                                     <!-- Wishlist button -->
-                                    <div class="mb-2">
+                                    <div class="mb-2 flex">
                                         @if (in_array($game->id, $wishlistGameIds))
                                             <form action="{{ route('wishlist.destroy', $game) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="text-red-600 hover:underline text-sm">❤ Hapus
+                                                <button class="text-red-600 text-md"> Hapus
                                                     dari
                                                     Wishlist</button>
                                             </form>
@@ -66,17 +66,17 @@
                                             <form action="{{ route('wishlist.store', $game) }}" method="POST">
                                                 @csrf
                                                 <button type="submit"
-                                                    class="text-gray-600 hover:text-red-600 hover:underline text-sm">🤍
+                                                    class="text-gray-600 hover:text-blue-800   text-md">
                                                     Tambah ke Wishlist</button>
                                             </form>
                                         @endif
+                                        <a href="{{ route('game.show', $game) }}"
+                                            class="text-black hover:underline text-md  mb-2 w-max ml-auto">
+                                            Lihat Detail..
+                                        </a>
                                     </div>
-
                                     <!-- Detail button -->
-                                    <a href="{{ route('game.show', $game) }}"
-                                        class="w-full px-3 py-2 mb-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm text-center">
-                                        Detail
-                                    </a>
+
 
                                     <!-- Add to Cart button -->
                                     <form action="{{ route('cart.add', $game) }}" method="POST">

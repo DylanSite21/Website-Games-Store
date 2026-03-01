@@ -1,13 +1,20 @@
 <div class="ultra-slider">
-    @if ($games && count($games) > 0)
+    @php
+        // display at most 5 games in the carousel
+        $carouselGames = collect();
+        if (isset($games)) {
+            $carouselGames = $games->take(5);
+        }
+    @endphp
+    @if ($carouselGames->count() > 0)
 
-        @foreach ($games as $index => $game)
+        @foreach ($carouselGames as $index => $game)
             <input type="radio" name="ultra-slider" id="ultra-slide{{ $index }}"
                 {{ $index === 0 ? 'checked' : '' }}>
         @endforeach
 
         <div class="ultra-slides">
-            @foreach ($games as $index => $game)
+            @foreach ($carouselGames as $index => $game)
                 <div class="ultra-slide">
                     <div class="ultra-bg" style="background-image: url('{{ $game->cover_url }}');"></div>
 
@@ -30,7 +37,7 @@
 
         <!-- Dots -->
         <div class="ultra-dots">
-            @foreach ($games as $index => $game)
+            @foreach ($carouselGames as $index => $game)
                 <label for="ultra-slide{{ $index }}" class="ultra-dot"></label>
             @endforeach
         </div>
@@ -123,7 +130,7 @@
 
     .ultra-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(255, 81, 47, 0.5);
+        box-shadow: 0 10px 30px rgba(84, 66, 255, 0.5);
     }
 
     /* Navigation */
