@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 bg-white bg-opacity-80 rounded-lg shadow p-8">
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Game Image -->
                 <div>

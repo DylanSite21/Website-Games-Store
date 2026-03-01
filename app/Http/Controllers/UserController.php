@@ -23,11 +23,19 @@ class UserController extends Controller
             return redirect()->route('developer.home');
         }
 
-        // published games only
-        $games = Game::with('categories')
-            ->where('status', 'published')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // start query for published games
+        $query = Game::with('categories')
+            ->where('status', 'published');
+
+        // apply search filter if provided
+        if ($search = $request->query('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $games = $query->orderBy('created_at', 'desc')->get();
 
         // if user is logged-in (should be via middleware) gather wishlist ids
         $wishlistGameIds = [];
