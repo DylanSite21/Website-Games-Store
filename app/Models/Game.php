@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Game extends Model
 {
@@ -18,6 +19,7 @@ class Game extends Model
         'price',
         'cover_image',
         'video_trailer',
+        'package',
         'status',
     ];
 
@@ -31,6 +33,12 @@ class Game extends Model
     public function wishlists(): HasMany
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    // Relasi ke Kategori
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
     }
 
     // Relasi ke Item Transaksi
@@ -48,9 +56,14 @@ class Game extends Model
             ->withTimestamps();
     }
 
-    // Aksesors untuk URL Gambar/Video (Opsional, memudahkan di View)
+    // Aksesors untuk URL Gambar/Video/Package
     public function getCoverUrlAttribute(): string
     {
         return $this->cover_image ? asset('storage/' . $this->cover_image) : asset('images/default-game.png');
+    }
+
+    public function getPackageUrlAttribute(): ?string
+    {
+        return $this->package ? Storage::disk('public')->url($this->package) : null;
     }
 }

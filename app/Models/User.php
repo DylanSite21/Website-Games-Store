@@ -46,4 +46,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Games the user has added to their wishlist.
+     */
+    public function wishlists()
+    {
+        return $this->hasMany(\App\Models\Wishlist::class);
+    }
+
+    public function wishlistGames()
+    {
+        return $this->belongsToMany(\App\Models\Game::class, 'wishlists');
+    }
 }

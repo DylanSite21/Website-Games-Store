@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\File;
+use App\Models\Game;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
-     * Show the application home page for non-developers.
+     * Show the application home page for non-developers (game catalog).
      *
-     * All the logic originally located inside the route closure has been
-     * moved here so the route definition can be concise.  The middleware
-     * is still applied on the route itself.
+     * Developers are redirected to their dashboard; regular users see
+     * published games and a short list of wishlist IDs so the view can
+     * mark which titles they have already added.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
@@ -22,9 +23,18 @@ class UserController extends Controller
             return redirect()->route('developer.index');
         }
 
-        // regular users see the list of uploaded files
-        $files = File::orderBy('created_at', 'desc')->get();
+        // published games only
+        $games = Game::with('categories')
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('home', compact('files')); // passes $files to view
+        // if user is logged-in (should be via middleware) gather wishlist ids
+        $wishlistGameIds = [];
+        if ($user) {
+            $wishlistGameIds = $user->wishlists()->pluck('game_id')->toArray();
+        }
+
+        return view('home', compact('games', 'wishlistGameIds'));
     }
 }

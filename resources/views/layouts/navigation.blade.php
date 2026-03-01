@@ -15,6 +15,11 @@
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
+                    @if (auth()->user() && auth()->user()->role !== 'developer')
+                        <x-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
+                            {{ __('Wishlist') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -78,6 +83,11 @@
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
+            @if (auth()->user() && auth()->user()->role !== 'developer')
+                <x-responsive-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
+                    {{ __('Wishlist') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
