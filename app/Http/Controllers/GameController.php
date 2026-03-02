@@ -150,6 +150,8 @@ class GameController extends Controller
             abort(403, 'Anda harus membeli game ini terlebih dahulu untuk mengunduhnya.');
         }
 
-        return Storage::disk('public')->download($game->package);
+        return response()->download(
+            storage_path('app/public/' . $game->package)
+        );
     }
 }
