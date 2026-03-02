@@ -35,7 +35,7 @@
                         <form action="{{ route('home') }}" method="GET" class="flex">
                             <input type="text" name="search" value="{{ request('search') }}"
                                 placeholder="Cari game..." class="border max-w-xs rounded-l px-3 py-2" />
-                            <button type="submit" class="bg-blue-600 text-white px-4 rounded-r">Go</button>
+                            <button type="submit" class="bg-blue-600 text-white px-4 rounded-r">Search</button>
                         </form>
                     </div>
                     @if ($games->count())
