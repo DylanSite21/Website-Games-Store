@@ -14,7 +14,7 @@ class DeveloperController extends Controller
      */
     public function index()
     {
-        $games = Game::where('developer_id', auth()->id())->orderBy('created_at', 'desc')->get();
+        $games = Game::where('developer_id', auth()->id())->orderBy('created_at', 'asc')->get();
         return view('developer.index', compact('games'));
     }
 }

@@ -4,9 +4,8 @@
             {{ __('Home') }}
         </h2>
     </x-slot>
-
     {{-- Corousel --}}
-    <x-corousel :games="$games ?? collect()" />
+    <x-corousel :corousel="$corousel ?? collect()" />
 
     {{-- Corousel End --}}
 

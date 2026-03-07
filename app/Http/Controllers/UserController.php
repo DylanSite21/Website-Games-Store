@@ -18,16 +18,20 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        // developers get redirected to their own dashboard
         if ($user && $user->role === 'developer') {
             return redirect()->route('developer.home');
         }
 
-        // start query for published games
+        // ✅ 1. DATA COROSEL (pakai nama 'corousel' konsisten)
+        $corousel = Game::where('status', 'published')
+            ->latest()
+            ->take(5)
+            ->get(); // <- Pastikan ->get()
+
+        // ✅ 2. DATA KATALOG (bisa kena search)
         $query = Game::with('categories')
             ->where('status', 'published');
 
-        // apply search filter if provided
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -37,12 +41,13 @@ class UserController extends Controller
 
         $games = $query->orderBy('created_at', 'desc')->get();
 
-        // if user is logged-in (should be via middleware) gather wishlist ids
+        // Wishlist
         $wishlistGameIds = [];
         if ($user) {
             $wishlistGameIds = $user->wishlists()->pluck('game_id')->toArray();
         }
 
-        return view('home', compact('games', 'wishlistGameIds'));
+        // ✅ 3. Kirim $corousel (bukan $carouselGames) ke view
+        return view('home', compact('games', 'wishlistGameIds', 'corousel'));
     }
 }

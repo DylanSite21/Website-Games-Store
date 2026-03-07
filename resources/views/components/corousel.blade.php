@@ -2,8 +2,8 @@
     @php
         // display at most 5 games in the carousel
         $carouselGames = collect();
-        if (isset($games)) {
-            $carouselGames = $games->take(5);
+        if (isset($corousel)) {
+            $carouselGames = $corousel->take(5);
         }
     @endphp
     @if ($carouselGames->count() > 0)
