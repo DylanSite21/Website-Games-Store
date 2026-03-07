@@ -36,7 +36,7 @@
 
                 <!-- Header & Search -->
                 <div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
-                    <h2 class="text-3xl font-bold text-white tracking-tight">Katalog Game</h2>
+                    <h2 class="text-3xl font-bold text-white tracking-tight">Games</h2>
                     <form action="{{ route('home') }}" method="GET" class="relative w-full md:w-96">
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari game..."
                             class="w-full bg-[#2a2a2a] text-white border-none rounded-sm px-4 py-3 focus:ring-2 focus:ring-white focus:outline-none placeholder-gray-400 transition" />

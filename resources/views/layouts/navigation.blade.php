@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('library.index')" :active="request()->routeIs('library.index')">
                             {{ __('Perpustakaan') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('payment.history')" :active="request()->routeIs('payment.history')">
+                            {{ __('Riwayat Pembayaran') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('developer.games.index')" :active="request()->routeIs('developer.games.index')">
                             {{ __('Kelola Game') }}
