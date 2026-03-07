@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-[#121212] border-b border-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -6,24 +6,25 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-white" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-1 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('developer.home')">
                         {{ __('Home') }}
                     </x-nav-link>
+
                     @if (auth()->user() && auth()->user()->role !== 'developer')
                         <x-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
                             {{ __('Wishlist') }}
                         </x-nav-link>
                         <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
-                            {{ __(' Keranjang') }}
+                            {{ __('Keranjang') }}
                         </x-nav-link>
                         <x-nav-link :href="route('library.index')" :active="request()->routeIs('library.index')">
-                            {{ __(' Perpustakaan') }}
+                            {{ __('Perpustakaan') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('developer.games.index')" :active="request()->routeIs('developer.games.index')">
@@ -44,8 +45,15 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium rounded-sm text-gray-300 bg-[#121212] hover:text-white hover:bg-[#2a2a2a] focus:outline-none transition duration-150">
+                            <div class="flex items-center gap-2">
+                                <!-- User Avatar Placeholder -->
+                                <div
+                                    class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div>
+                                <span>{{ Auth::user()->name }}</span>
+                            </div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -59,20 +67,23 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                        <!-- Dark Dropdown Styling -->
+                        <div class="py-1 bg-[#1f1f1f] border border-gray-700 rounded-sm">
+                            <x-dropdown-link :href="route('profile.edit')"
+                                class="text-gray-300 hover:text-white hover:bg-[#2a2a2a]">
+                                {{ __('Profile') }}
                             </x-dropdown-link>
-                        </form>
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault(); this.closest('form').submit();"
+                                    class="text-gray-300 hover:text-white hover:bg-red-600">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        </div>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -80,7 +91,7 @@
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    class="inline-flex items-center justify-center p-2 rounded-sm text-gray-400 hover:text-white hover:bg-[#2a2a2a] focus:outline-none focus:bg-[#2a2a2a] focus:text-white transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -94,29 +105,39 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden bg-[#121212] border-b border-gray-800">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home') || request()->routeIs('developer.home')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
             @if (auth()->user() && auth()->user()->role !== 'developer')
+                <x-responsive-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
+                    {{ __('Wishlist') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
                     {{ __('🛒 Keranjang') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('library.index')" :active="request()->routeIs('library.index')">
                     {{ __('📚 Perpustakaan') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('wishlist.index')" :active="request()->routeIs('wishlist.index')">
-                    {{ __('Wishlist') }}
+            @else
+                <x-responsive-nav-link :href="route('developer.games.index')" :active="request()->routeIs('developer.games.index')">
+                    {{ __('Kelola Game') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('developer.categories.index')" :active="request()->routeIs('developer.categories.index')">
+                    {{ __('Kelola Kategori') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('developer.sales.index')" :active="request()->routeIs('developer.sales.index')">
+                    {{ __('Dashboard Penjualan') }}
                 </x-responsive-nav-link>
             @endif
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+        <div class="pt-4 pb-1 border-t border-gray-800">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-white">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-gray-400">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
@@ -127,10 +148,8 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                        onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

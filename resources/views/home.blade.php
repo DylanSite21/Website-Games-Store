@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class=" font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Home') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-bold text-2xl text-white leading-tight tracking-tight">
+                {{ __('Home') }}
+            </h2>
+
+            <!-- Optional: Breadcrumb atau tombol aksi bisa ditambahkan di sini -->
+            <!-- <span class="text-gray-400 text-sm">Katalog Game Terbaru</span> -->
+        </div>
     </x-slot>
     {{-- Corousel --}}
     <x-corousel :corousel="$corousel ?? collect()" />
